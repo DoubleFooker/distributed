@@ -1,4 +1,0 @@
-com\ognice\loadbaland\RoundLoadbalanceClient.class
-com\ognice\loadbaland\RandomLoadbalanceClient.class
-com\ognice\loadbaland\LoadbalanceClient.class
-com\ognice\client\AbstractDiscoveryClient.class

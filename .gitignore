@@ -1,6 +1,3 @@
-.classpath
-.project
-.settings/
-target/
+target/**
 .iml
-/register-center/example/zk/target
+.idea
