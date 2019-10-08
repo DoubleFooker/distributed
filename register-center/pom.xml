@@ -13,6 +13,7 @@
         <module>register-server</module>
         <module>register-common</module>
         <module>register-zookeeper</module>
+        <module>example</module>
     </modules>
 
     <name>register-center</name>

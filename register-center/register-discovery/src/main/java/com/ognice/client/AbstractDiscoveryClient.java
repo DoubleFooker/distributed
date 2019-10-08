@@ -2,10 +2,12 @@ package com.ognice.client;
 
 public interface AbstractDiscoveryClient {
 
-    boolean register(String serviceName);
+    void init();
 
-    boolean disRegister(String serviceName);
+    boolean register();
 
-    boolean doHeartBeat(String serviceName);
+    boolean disRegister();
+
+    void doHeartBeat();
 
 }

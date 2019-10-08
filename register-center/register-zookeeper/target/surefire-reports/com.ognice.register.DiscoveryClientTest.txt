@@ -1,0 +1,10 @@
+-------------------------------------------------------------------------------
+Test set: com.ognice.register.DiscoveryClientTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.001 s <<< FAILURE! - in com.ognice.register.DiscoveryClientTest
+initializationError(com.ognice.register.DiscoveryClientTest)  Time elapsed: 0 s  <<< ERROR!
+java.lang.Exception: The class com.ognice.register.DiscoveryClientTest is not public.
+
+initializationError(com.ognice.register.DiscoveryClientTest)  Time elapsed: 0 s  <<< ERROR!
+java.lang.Exception: Test class should have exactly one public constructor
+

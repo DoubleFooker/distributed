@@ -4,10 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+
 @Slf4j
 public enum ConfigInstance {
     INSTANCE;
-    public String getHost()  {
+
+    public String getHost() {
         String hostAddress = null;
         try {
             hostAddress = InetAddress.getLocalHost().getHostAddress();
@@ -16,5 +18,14 @@ public enum ConfigInstance {
         }
         return hostAddress;
     }
-    public static final String REG_PATH="dbfkRegCenter";
+
+    public String getRegPath() {
+        StringBuilder stringBuilder = new StringBuilder(REG_PATH);
+        stringBuilder.append("/")
+                .append(RegisterConfig.getInstance().getServiceName())
+                ;
+        return stringBuilder.toString();
+    }
+
+    public static final String REG_PATH = "/dbfkRegCenter";
 }
