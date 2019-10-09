@@ -1,9 +1,11 @@
 package com.ognice.register.api;
 
 import com.ognice.common.CommonResp;
+import com.ognice.module.DiscoveryService;
 import com.ognice.services.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,18 +22,18 @@ public class RegisterController {
     RegisterService registerService;
 
     @PostMapping("/register")
-    public CommonResp register(String serviceName, String host, String port) {
-        return CommonResp.success(registerService.reg(serviceName, host, port));
+    public CommonResp register(@RequestBody DiscoveryService discoveryService) {
+        return CommonResp.success(registerService.reg(discoveryService.getName(), discoveryService.getHost(),discoveryService.getPort()));
     }
 
     @RequestMapping("/disregister")
-    public CommonResp disregister(String serviceName, String host, String port) {
-        boolean remove = registerService.remove(serviceName, host, port);
+    public CommonResp disregister(@RequestBody DiscoveryService discoveryService) {
+        boolean remove = registerService.remove(discoveryService.getName(), discoveryService.getHost(),discoveryService.getPort());
         return remove ? CommonResp.success(null) : CommonResp.fail(null);
     }
 
     @RequestMapping("/heartbeat")
-    public CommonResp heartbeat(String serviceName, String port, String host) {
-        return CommonResp.success(registerService.refresh(serviceName, host, port));
+    public CommonResp heartbeat(@RequestBody DiscoveryService discoveryService) {
+        return CommonResp.success(registerService.refresh(discoveryService.getName(), discoveryService.getHost(),discoveryService.getPort()));
     }
 }

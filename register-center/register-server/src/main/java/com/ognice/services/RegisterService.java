@@ -61,6 +61,9 @@ public class RegisterService {
 
     public DiscoveryService refresh(String name, String host, String port) {
         DiscoveryService instance = ManagerCenter.getInstance(name, host, port);
+        if(instance==null){
+            return null;
+        }
         LocalDateTime ldt = LocalDateTime.now();
         String strDate = ldt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         instance.setLastHeartBeat(strDate)
