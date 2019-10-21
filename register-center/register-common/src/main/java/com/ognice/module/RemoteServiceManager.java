@@ -9,7 +9,7 @@ import java.util.*;
  * @author huangkaifu
  * @date 2019/10/8
  */
-public class ServiceManager {
+public class RemoteServiceManager {
     public static Map<String, Set<DiscoveryService>> services = Collections.synchronizedMap(new HashMap<>());
 
     public static DiscoveryService getInstance(String serviceName, String host, String port) {

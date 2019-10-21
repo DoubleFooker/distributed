@@ -3,7 +3,7 @@ package com.ognice.server;
 import com.alibaba.fastjson.JSON;
 import com.ognice.common.ServiceRequest;
 import com.ognice.module.DiscoveryService;
-import com.ognice.module.ServiceManager;
+import com.ognice.module.RemoteServiceManager;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import lombok.Data;
@@ -38,10 +38,10 @@ public class ServiceHandler extends ChannelInboundHandlerAdapter {
         newService.add(discoveryService);
         switch (serviceRequest.getMethod()) {
             case "disreg":
-                ServiceManager.services.get(discoveryService.getName()).remove(discoveryService);
+                RemoteServiceManager.services.get(discoveryService.getName()).remove(discoveryService);
                 break;
             case "heartbeat":
-                DiscoveryService instance = ServiceManager.getInstance(discoveryService.getName(), discoveryService.getHost(), discoveryService.getPort());
+                DiscoveryService instance = RemoteServiceManager.getInstance(discoveryService.getName(), discoveryService.getHost(), discoveryService.getPort());
                 if (instance == null) {
                     break;
                 }
@@ -52,7 +52,7 @@ public class ServiceHandler extends ChannelInboundHandlerAdapter {
                 discoveryService.setStatus("UP")
                         .setLastHeartBeat(strDate)
                         .setRegTime(strDate);
-                ServiceManager.services.merge(discoveryService.getName(), newService, (oldValue, newValue) -> {
+                RemoteServiceManager.services.merge(discoveryService.getName(), newService, (oldValue, newValue) -> {
                     oldValue.addAll(newService);
                     return oldValue;
                 });
@@ -64,7 +64,7 @@ public class ServiceHandler extends ChannelInboundHandlerAdapter {
                     if (LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) - ldt2.toEpochSecond(ZoneOffset.UTC) > 10000) {
                         discoveryService.setStatus("down");
                     } else if (LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) - ldt2.toEpochSecond(ZoneOffset.UTC) > 15000) {
-                        ServiceManager.services.remove(discoveryService);
+                        RemoteServiceManager.services.remove(discoveryService);
                     }
                 }, 10, 10, TimeUnit.SECONDS);
                 break;

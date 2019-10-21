@@ -1,6 +1,6 @@
 package com.ognice.loadbaland;
 
-import com.ognice.module.ServiceManager;
+import com.ognice.client.LocalServicesManager;
 
 import java.util.List;
 
@@ -12,19 +12,20 @@ import java.util.List;
  * @date 2019/10/8
  */
 public class RoundLoadbalanceClient implements LoadbalanceClient {
-    private Integer current = 0;
+    private Integer currentPickedIndex = 0;
 
     @Override
     public String loadbalance(String serviceName) {
 
-        List<String> instances = ServiceManager.services.get(serviceName);
+        List<String> instances = LocalServicesManager.localServices.get(serviceName);
         if (instances == null || instances.isEmpty()) {
             throw new RuntimeException("can not find service " + serviceName);
         } else {
-            if (current > instances.size() - 1) {
-                current = 0;
+            if (currentPickedIndex > instances.size() - 1) {
+                currentPickedIndex = 0;
             }
-            return instances.get(current++);
+            return instances.get(currentPickedIndex++);
+
         }
     }
 }

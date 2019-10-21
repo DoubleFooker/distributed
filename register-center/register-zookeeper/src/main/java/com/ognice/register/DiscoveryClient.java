@@ -1,9 +1,9 @@
 package com.ognice.register;
 
 import com.ognice.client.AbstractDiscoveryClient;
+import com.ognice.client.LocalServicesManager;
 import com.ognice.config.ConfigInstance;
 import com.ognice.config.RegisterConfig;
-import com.ognice.module.ServiceManager;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
@@ -41,7 +41,7 @@ public class DiscoveryClient implements AbstractDiscoveryClient {
         for (String service : services) {
             List<String> instances = RegisterConfig.getInstance().getClient().getChildren().forPath(regPath + "/" + service);
             List<String> serviceList = new ArrayList<>(instances);
-            ServiceManager.services.put(service, serviceList);
+            LocalServicesManager.localServices.put(service, serviceList);
         }
     }
 
