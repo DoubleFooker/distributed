@@ -4,6 +4,7 @@ import com.ognice.common.CommonResp;
 import com.ognice.module.DiscoveryService;
 import com.ognice.services.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class RegisterController {
     @Autowired
     RegisterService registerService;
+    @Value("${spring.profiles.active}")
+    private String profile;
 
     @PostMapping("/register")
     public CommonResp register(@RequestBody DiscoveryService discoveryService) {
@@ -35,5 +38,10 @@ public class RegisterController {
     @RequestMapping("/heartbeat")
     public CommonResp heartbeat(@RequestBody DiscoveryService discoveryService) {
         return CommonResp.success(registerService.refresh(discoveryService.getName(), discoveryService.getHost(),discoveryService.getPort()));
+    }
+    @RequestMapping("/test")
+    public CommonResp test() {
+        System.out.println(profile);
+        return CommonResp.success(null);
     }
 }

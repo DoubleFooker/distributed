@@ -1,9 +1,6 @@
 package com.ognice.module;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>Title: ServiceManager</p>
@@ -13,5 +10,21 @@ import java.util.Map;
  * @date 2019/10/8
  */
 public class ServiceManager {
-    public static Map<String, List<String>> services = Collections.synchronizedMap(new HashMap<String, List<String>>());
+    public static Map<String, Set<DiscoveryService>> services = Collections.synchronizedMap(new HashMap<>());
+
+    public static DiscoveryService getInstance(String serviceName, String host, String port) {
+        Set<DiscoveryService> discoveryServices = services.get(serviceName);
+        if (discoveryServices == null) {
+            return null;
+        }
+        DiscoveryService updated = null;
+        for (DiscoveryService instance : discoveryServices) {
+            if (instance.getName().equals(serviceName) && instance.getHost().equals(host) && instance.getPort().equals(port)) {
+                updated = instance;
+                break;
+            }
+
+        }
+        return updated;
+    }
 }

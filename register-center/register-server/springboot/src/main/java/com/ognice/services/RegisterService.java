@@ -1,7 +1,7 @@
 package com.ognice.services;
 
-import com.ognice.manager.ManagerCenter;
 import com.ognice.module.DiscoveryService;
+import com.ognice.module.ServiceManager;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -35,7 +35,7 @@ public class RegisterService {
                 .setLastHeartBeat(discoveryService.getRegTime());
         HashSet<DiscoveryService> discoveryServices = new HashSet<>();
         discoveryServices.add(discoveryService);
-        ManagerCenter.services.merge(name, discoveryServices, (oldValue, newValue) -> {
+        ServiceManager.services.merge(name, discoveryServices, (oldValue, newValue) -> {
             oldValue.addAll(discoveryServices);
             return oldValue;
         });
@@ -46,21 +46,21 @@ public class RegisterService {
             if (LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) - ldt2.toEpochSecond(ZoneOffset.UTC) > 10000) {
                 discoveryService.setStatus("down");
             } else if (LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) - ldt2.toEpochSecond(ZoneOffset.UTC) > 15000) {
-                ManagerCenter.services.remove(discoveryService);
+                ServiceManager.services.remove(discoveryService);
             }
         }, 10, 10, TimeUnit.SECONDS);
         return discoveryService;
     }
 
     public boolean remove(String name, String host, String port) {
-        Map<String, Set<DiscoveryService>> services = ManagerCenter.services;
+        Map<String, Set<DiscoveryService>> services = ServiceManager.services;
         Set<DiscoveryService> discoveryServices = services.get(name);
         DiscoveryService removeInstance = new DiscoveryService().setHost(host).setPort(port).setName(name);
         return discoveryServices.remove(removeInstance);
     }
 
     public DiscoveryService refresh(String name, String host, String port) {
-        DiscoveryService instance = ManagerCenter.getInstance(name, host, port);
+        DiscoveryService instance = ServiceManager.getInstance(name, host, port);
         if(instance==null){
             return null;
         }
