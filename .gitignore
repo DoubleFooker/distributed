@@ -5,3 +5,5 @@ target/
 /register-center/register-discovery/target
 /register-center/register-server/target
 /register-center/register-common/target
+/conf-center/*.iml
+/conf-center/conf-common/*.iml
